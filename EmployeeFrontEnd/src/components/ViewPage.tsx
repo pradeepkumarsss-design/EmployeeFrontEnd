@@ -1,15 +1,33 @@
-import React, { useState } from "react";
+import React, { useState, ChangeEvent, FC } from "react";
 import { Button } from "./ui/button";
 import { Card } from "./ui/card";
 import { User, MapPin, ArrowLeft, Edit, Save } from "lucide-react";
 
-export function ViewPage({ employee, onBack }) {
+interface Employee {
+  _id: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  phone: string;
+  streetAddress: string;
+  city: string;
+  state: string;
+  zipCode: string;
+  [key: string]: string;
+}
+
+interface ViewPageProps {
+  employee: Employee;
+  onBack: () => void;
+}
+
+export const ViewPage: FC<ViewPageProps> = ({ employee, onBack }) => {
   const [isEditing, setIsEditing] = useState(false);
-  const [formData, setFormData] = useState(employee);
+  const [formData, setFormData] = useState<Employee>(employee);
 
   // Handle input changes while editing
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setFormData({ ...formData, [e.currentTarget.name]: e.currentTarget.value });
   };
 
   // PUT API call to update employee
